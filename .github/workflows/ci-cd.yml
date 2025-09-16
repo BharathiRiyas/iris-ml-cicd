@@ -29,7 +29,7 @@ jobs:
       # 4. Run tests
       - name: Run unit tests
         run: |
-          pytest tests
+          PYTHONPATH=. pytest tests
 
       # 5. Deploy step (echo only)
       - name: Deploy to staging
