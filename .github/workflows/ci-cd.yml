@@ -26,12 +26,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 4. Run tests
+      # 4. Run unit tests
       - name: Run unit tests
         run: |
           PYTHONPATH=. pytest tests
 
-      # 5. Deploy step (echo only)
+      # 5. Train ML model
+      - name: Train ML model
+        if: success()
+        run: |
+          echo "🟢 Training ML model..."
+          python train_model.py
+
+      # 6. Deploy step (echo only)
       - name: Deploy to staging
         if: success()
         run: |
