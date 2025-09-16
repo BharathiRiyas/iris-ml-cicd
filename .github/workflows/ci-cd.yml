@@ -1,0 +1,40 @@
+name: ML CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - uses: actions/checkout@v3
+
+      # 2. Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Run tests
+      - name: Run unit tests
+        run: |
+          pytest tests
+
+      # 5. Deploy step (echo only)
+      - name: Deploy to staging
+        if: success()
+        run: |
+          echo "✅ All tests passed."
+          echo "🚀 Deploying ML model to staging environment (simulation)..."
+          echo "🌍 http://staging.example.com/iris-ml"
